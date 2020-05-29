@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 const Button = ({onClick, name}) => <button onClick={onClick}>{name}</button>
 
-const Display = ({name, value}) => <p>{name + value}</p>
+const Display = ({name, value}) => <tr><td>{name}</td><td style={{ textAlign: "center" }}>{value}</td></tr>
 
 const Math = ({good, neutral, bad}) => {
     const goodValue = 1
@@ -15,26 +15,30 @@ const Math = ({good, neutral, bad}) => {
     const positive = (good / all) * 100
 
     return(
-        <div>
+        <>
             <Display name={"Total reviews: "} value={all} />
             <Display name={"Average: "} value={average.toFixed(3)} />
             <Display name={"Positive reviews: "} value={positive.toFixed(3) + "%"} />
-        </div>
+        </>
     )
 }
 
 const Statistics = ({good, neutral, bad}) => {
-    if (good + neutral + bad == 0) {
+    if (good + neutral + bad === 0) {
         return (<p>There is no feedback yet. Please use the buttons above!</p>)
     }
     else{
         return (
-            <div>
-                <Display name={"Good reviews: "} value={good} />
-                <Display name={"Neutral reviews: "} value={neutral} />
-                <Display name={"Bad reviews: "} value={bad} />
-                <Math good={good} neutral={neutral} bad={bad}/>
-            </div>
+            <>
+                <table>
+                    <tbody>
+                        <Display name={"Good reviews: "} value={good} />
+                        <Display name={"Neutral reviews: "} value={neutral} />
+                        <Display name={"Bad reviews: "} value={bad} />
+                        <Math good={good} neutral={neutral} bad={bad}/>
+                    </tbody>
+                </table>
+            </>
         )
     }
 }
