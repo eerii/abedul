@@ -18,17 +18,20 @@ const App = () => {
 
     const addNote = (event) => {
         event.preventDefault()
-        const contactObj = {
-            name: newName
+        if ((contacts.map(contacts => contacts.name)).includes(newName)) {
+            window.alert(`Your phonebook already includes ${newName}`);
         }
-        setContacts(contacts.concat(contactObj))
+        else {
+            const contactObj = {
+                name: newName
+            }
+            setContacts(contacts.concat(contactObj))
+        }
         setNewName('')
-        //console.log('button clicked', event.target)
     }
 
     const onNameChange = (event) => {
         setNewName(event.target.value)
-        //console.log(event.target.value)
     }
 
     return (
