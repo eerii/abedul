@@ -1,20 +1,19 @@
 import React, { useState } from 'react'
 
-const Display = ({name}) => <p>{name}</p>
+const Display = ({name, number}) => <p>{name}: {number}</p>
 
 const Book = ({contacts}) => {
     return (
         <div>
-            {contacts.map(contacts => <Display key={contacts.name} name={contacts.name}/>)}
+            {contacts.map(contacts => <Display key={contacts.name} name={contacts.name} number={contacts.number}/>)}
         </div>
     )
 }
 
 const App = () => {
-    const [ contacts, setContacts ] = useState([
-        { name: 'Arto Hellas' }
-    ])
+    const [ contacts, setContacts ] = useState([])
     const [ newName, setNewName ] = useState('')
+    const [ newNumber, setNewNumber ] = useState('')
 
     const addNote = (event) => {
         event.preventDefault()
@@ -23,15 +22,21 @@ const App = () => {
         }
         else {
             const contactObj = {
-                name: newName
+                name: newName,
+                number: newNumber
             }
             setContacts(contacts.concat(contactObj))
         }
         setNewName('')
+        setNewNumber('')
     }
 
     const onNameChange = (event) => {
         setNewName(event.target.value)
+    }
+
+    const onNumberChange = (event) => {
+        setNewNumber(event.target.value)
     }
 
     return (
@@ -40,6 +45,9 @@ const App = () => {
             <form onSubmit={addNote}>
                 <div>
                     Name: <input value={newName} onChange={onNameChange}/>
+                </div>
+                <div>
+                    Phone Number: <input value={newNumber} onChange={onNumberChange}/>
                 </div>
                 <div>
                     <button type="submit">Add Contact</button>
