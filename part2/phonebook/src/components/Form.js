@@ -1,4 +1,7 @@
 import React, {useState} from 'react'
+import axios from 'axios'
+
+const baseUrl = 'http://localhost:3001/persons'
 
 const Form = ({contacts, setContacts}) => {
     const [ newName, setNewName ] = useState('')
@@ -14,7 +17,12 @@ const Form = ({contacts, setContacts}) => {
                 name: newName,
                 number: newNumber
             }
-            setContacts(contacts.concat(contactObj))
+
+            axios
+                .post(baseUrl, contactObj)
+                .then(response => {
+                    setContacts(contacts.concat(response.data))
+                })
         }
         setNewName('')
         setNewNumber('')
