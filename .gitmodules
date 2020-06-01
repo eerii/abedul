@@ -1,3 +1,3 @@
-[submodule "/Users/jose/Web/circe/part3/altair"]
-	path = /Users/jose/Web/circe/part3/altair
+[submodule "part3"]
+	path = /Users/jose/Web/circe/part3
 	url = git@github.com:josekoalas/altair.git
