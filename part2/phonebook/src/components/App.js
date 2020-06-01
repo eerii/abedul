@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Form from './Form'
 import Search from './Search'
 import Book from './Book'
@@ -27,7 +26,7 @@ const App = () => {
 
             <h3>Contacts</h3>
             <Search searchVal={searchVal} setSearchVal={setSearchVal}/>
-            <Book contacts={contacts} search={searchVal}/>
+            <Book contacts={contacts} setContacts={setContacts} search={searchVal}/>
         </div>
     )
 }

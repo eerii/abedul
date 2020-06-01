@@ -12,4 +12,13 @@ const newContact = newObject => {
     return request.then(response => response.data)
 }
 
-export default {getContact, newContact}
+const changeNumber = (id, newObject) => {
+    const request = axios.put(`${baseUrl}/${id}`, newObject)
+    return request.then(response => response.data)
+}
+
+const deleteContact = id => {
+    return axios.delete(baseUrl + '/' + id)
+}
+
+export default {getContact, newContact, changeNumber, deleteContact}
