@@ -3,6 +3,7 @@ import axios from 'axios'
 import Form from './Form'
 import Search from './Search'
 import Book from './Book'
+import contactService from '../services/contacts'
 
 const App = () => {
     const [ contacts, setContacts ] = useState([])
@@ -10,11 +11,9 @@ const App = () => {
 
     useEffect(() => {
         console.log("Effect")
-        axios
-            .get('http://localhost:3001/persons')
-            .then(response => {
+        contactService.getContact().then(contactlist => {
                 console.log("Promise fulfilled")
-                setContacts(response.data)
+                setContacts(contactlist)
             })
     }, [])
     console.log("Render", contacts.length, "contacts")
