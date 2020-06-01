@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import contactService from '../services/contacts'
 
-const Form = ({contacts, setContacts}) => {
+const Form = ({contacts, setContacts, setNotification, timeout, setTheTimeout}) => {
     const [ newName, setNewName ] = useState('')
     const [ newNumber, setNewNumber ] = useState('')
 
@@ -15,11 +15,19 @@ const Form = ({contacts, setContacts}) => {
                     contactService.changeNumber(changedContact.id, changedContact)
                         .then(newContact => {
                             setContacts(contacts.map(contacts => contacts.id !== changedContact.id ? contacts : newContact))
+                            setNotification([false, `The entry for ${newName} was updated`])
+                            if (timeout) {clearTimeout(timeout)}
+                        })
+                        .catch(error => {
+                            setNotification([true, `The entry for ${newName} has been removed from the server`])
+                            if (timeout) {clearTimeout(timeout)}
+                            setContacts(contacts.filter(n => n.id !== changedContact.id))
                         })
                 }
             }
             else {
-                window.alert(`Your phonebook already includes ${newName}`);
+                setNotification([true, `Your phonebook already includes ${newName}`])
+                if (timeout) {clearTimeout(timeout)}
             }
         }
         else {
@@ -30,10 +38,16 @@ const Form = ({contacts, setContacts}) => {
 
             contactService.newContact(contactObj).then(contact => {
                 setContacts(contacts.concat(contact))
+                setNotification([false, `${newName} has been added to your phonebook!`])
+                if (timeout) {clearTimeout(timeout)}
             })
         }
         setNewName('')
         setNewNumber('')
+
+        setTheTimeout(setTimeout(() => {
+            setNotification([false, ''])
+        }, 3000))
     }
 
     const onNameChange = (event) => {
