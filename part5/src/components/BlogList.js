@@ -19,7 +19,7 @@ const Blog = ({ blog }) => (
     </div>
 )
 
-const AddBlog = ({user, blogs, setBlogs}) => {
+const AddBlog = ({user, blogs, setBlogs, setNotification, timeout}) => {
     const [title, setTitle] = useState("")
     const [author, setAuthor] = useState("")
     const [url, setUrl] = useState("")
@@ -30,8 +30,13 @@ const AddBlog = ({user, blogs, setBlogs}) => {
         try {
             const blog = await blogService.newBlog({title, author, url})
             setBlogs(blogs.concat(blog))
+
+            setNotification([false, `The blog ${blog.title} by ${blog.author} has been created`])
+            if (timeout) {clearTimeout(timeout)}
         } catch (exception) {
             console.log(exception)
+            setNotification([true, `There was an error creating the blog ${title}`])
+            if (timeout) {clearTimeout(timeout)}
         }
 
         setTitle("")
@@ -74,7 +79,7 @@ const AddBlog = ({user, blogs, setBlogs}) => {
     </div>)
 }
 
-const BlogList = ({user}) => {
+const BlogList = ({user, setNotification, timeout}) => {
     const [blogs, setBlogs] = useState([])
 
     useEffect(() => {
@@ -86,7 +91,7 @@ const BlogList = ({user}) => {
             <h2>Blogs</h2>
             <p>The user {user.name} is logged in.<LogOutButton/></p>
 
-            <AddBlog user={user} blogs={blogs} setBlogs={setBlogs}/>
+            <AddBlog user={user} blogs={blogs} setBlogs={setBlogs} setNotification={setNotification} timeout={timeout}/>
 
             <h4>Blog list</h4>
             {blogs.map(blog =>

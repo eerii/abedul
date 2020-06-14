@@ -2,7 +2,7 @@ import React, {useState} from "react"
 import login from "../services/login"
 import blogService from "../services/blogs"
 
-const Login = ({setUser}) => {
+const Login = ({setUser, setNotification, timeout, setTheTimeout}) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
 
@@ -15,8 +15,12 @@ const Login = ({setUser}) => {
             window.localStorage.setItem( "loggedBloglistUser", JSON.stringify(user) )
             setUser(user)
             blogService.setToken(user.token)
+
+            setNotification([false, `${user.name}, you have logged in successfully`])
+            if (timeout) {clearTimeout(timeout)}
         } catch (exception) {
-            console.log("Wrong credentials")
+            setNotification([true, `Wrong credentials, please try again`])
+            if (timeout) {clearTimeout(timeout)}
         }
 
         setUsername("")
