@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react"
 import BlogList from "./components/BlogList"
 import Login from "./components/Login"
+import blogService from "./services/blogs";
 
 const App = () => {
     const [user, setUser] = useState(null)
@@ -11,6 +12,7 @@ const App = () => {
         if (loggedInUser) {
             const user = JSON.parse(loggedInUser)
             setUser(user)
+            blogService.setToken(user.token)
         }
     }, [])
 

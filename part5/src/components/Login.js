@@ -1,5 +1,6 @@
 import React, {useState} from "react"
 import login from "../services/login"
+import blogService from "../services/blogs"
 
 const Login = ({setUser}) => {
     const [username, setUsername] = useState("")
@@ -7,21 +8,19 @@ const Login = ({setUser}) => {
 
     const handleLogin = async (event) => {
         event.preventDefault()
-
         //console.log(`The user ${username} is login with ${password}`)
 
         try {
             const user = await login.login({ username, password })
-
             window.localStorage.setItem( "loggedBloglistUser", JSON.stringify(user) )
-
             setUser(user)
-            setUsername("")
-            setPassword("")
+            blogService.setToken(user.token)
         } catch (exception) {
             console.log("Wrong credentials")
-            console.log(exception)
         }
+
+        setUsername("")
+        setPassword("")
     }
 
     return (
