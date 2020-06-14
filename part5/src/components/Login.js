@@ -7,9 +7,14 @@ const Login = ({setUser}) => {
 
     const handleLogin = async (event) => {
         event.preventDefault()
-        console.log(`The user ${username} is login with ${password}`)
+
+        //console.log(`The user ${username} is login with ${password}`)
+
         try {
             const user = await login.login({ username, password })
+
+            window.localStorage.setItem( "loggedBloglistUser", JSON.stringify(user) )
+
             setUser(user)
             setUsername("")
             setPassword("")

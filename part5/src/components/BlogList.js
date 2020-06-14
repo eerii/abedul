@@ -2,6 +2,17 @@ import Blog from "./Blog";
 import React, {useEffect, useState} from "react";
 import blogService from "../services/blogs";
 
+const logOut = () => {
+    window.localStorage.removeItem("loggedBloglistUser")
+    window.location.reload()
+}
+
+const LogOutButton = () => {
+    return (
+        <button onClick={logOut}>Log Out</button>
+    )
+}
+
 const BlogList = ({user}) => {
     const [blogs, setBlogs] = useState([])
 
@@ -12,7 +23,7 @@ const BlogList = ({user}) => {
     return (
         <div>
             <h2>Blogs</h2>
-            <p>The user {user.name} is logged in.</p>
+            <p>The user {user.name} is logged in.<LogOutButton/></p>
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />
             )}
